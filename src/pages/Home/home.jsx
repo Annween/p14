@@ -1,7 +1,6 @@
 import React from "react";
 import "./home.css";
 import Form from "../../component/Form";
-import Confirmation from "../../component/Modal";
 import {Link} from "react-router-dom";
 
 
@@ -15,7 +14,6 @@ function Home() {
 			<h2>Create Employee</h2>
 			<Form/>
 		</div>
-		<Confirmation title="Employee Created" message="Employee has been created successfully!"/>
 	</section>;
 }
 

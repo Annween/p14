@@ -1,27 +1,40 @@
-import React from "react";
+import React, {useEffect} from "react";
+import "./Modal.css";
 
 const Modal = (props) => {
-	//confirmation message
-	return <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog"
-	            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div className="modal-dialog modal-dialog-centered" role="document">
-			<div className="modal-content">
-				<div className="modal-header">
-					<h5 className="modal-title" id="exampleModalLongTitle">{props.title}</h5>
-					<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+
+	const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+	useEffect(() => {
+		setIsModalOpen(props.isVisible);
+		console.log(props.isVisible)
+	}, [props.isVisible]);
+
+
+	return (
+		<>
+			{props.displayButton && (
+				<button className="openBtn" onClick={() => setIsModalOpen(!isModalOpen)}>
+					Open Modal
+				</button>
+			)}
+			{isModalOpen && (
+				<div className="myModal">
+					<div className="myModal-content">
+						<div className="myModal-header">
+              <span className="close" onClick={() => setIsModalOpen(!isModalOpen)}>
+                &times;
+              </span>
+							<h2>{props.header}</h2>
+						</div>
+						<div className="myModal-body">
+							<p>{props.body}</p>
+						</div>
+					</div>
 				</div>
-				<div className="modal-body">
-					{props.message}
-				</div>
-				<div className="modal-footer">
-					<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" className="btn btn-primary">Ok</button>
-				</div>
-			</div>
-		</div>
-	</div>
-}
+			)}
+		</>
+	);
+};
 
 export default Modal;

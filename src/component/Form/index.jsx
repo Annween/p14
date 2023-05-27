@@ -1,13 +1,41 @@
 import React, {useState, useEffect} from "react";
-import DateTimePicker from 'react-datetime-picker';
+import DateInput from "../DateInput";
+import Select from "../../component/Select";
+import Modal from "../Modal";
 
 
 const Form = () => {
 
 	const [states, setStates] = useState([])
 	const [isSubmitted, setIsSubmitted] = useState(false)
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [dateOfBirth, setDateOfBirth] = useState("");
+	const [startDate, setStartDate] = useState(new Date());
+	const [street, setStreet] = useState("");
+	const [city, setCity] = useState("");
+	const [state, setState] = useState("");
+	const [zipCode, setZipCode] = useState("");
+	const [department, setDepartment] = useState("");
 
-	const [value, onChange] = useState(new Date());
+
+	const onChangeDateOfBirth = (newValue) => {
+		setDateOfBirth(newValue)
+	}
+
+	const onChangeStartDate = (newValue) => {
+		setStartDate(newValue)
+	}
+
+	const onChangeState = (newValue) => {
+		setState(newValue)
+	}
+
+	const onChangeDepartement = (newValue) => {
+		setDepartment(newValue)
+	}
+
+
 	async function getStates() {
 		const response = await fetch('/api/data.json')
 		return await response.json();
@@ -18,28 +46,17 @@ const Form = () => {
 		let mounted = true;
 		getStates()
 			.then(items => {
-				if(mounted) {
+				if (mounted) {
 					setStates(items.states)
 				}
 			})
 		return () => mounted = false;
 	}, [])
 
-	function handleSubmit(event) {
-		//push to local storage
-		event.preventDefault();
-		//get values and push to local storage
-		const firstName = document.getElementById("first-name").value;
-		const lastName = document.getElementById("last-name").value;
-		const dateOfBirth = document.getElementById("date-of-birth").value;
-		const startDate = document.getElementById("start-date").value;
-		const street = document.getElementById("street").value;
-		const city = document.getElementById("city").value;
-		const state = document.getElementById("state").value;
-		const zipCode = document.getElementById("zip-code").value;
-		const department = document.getElementById("department").value;
 
-		const employee = {
+	function handleSubmit(e) {
+		e.preventDefault();
+		const employeeData = {
 			firstName,
 			lastName,
 			dateOfBirth,
@@ -48,73 +65,99 @@ const Form = () => {
 			city,
 			state,
 			zipCode,
-			department
-		}
-		localStorage.setItem('employees', JSON.stringify(employee));
-
+			department,
+		};
+		localStorage.setItem('employees', JSON.stringify(employeeData));
+		setIsSubmitted(true);
 	}
 
-	return <div className="container">
-		<form action="#" id="create-employee" onSubmit={handleSubmit}>
+	/*useEffect(() => {
+
+	localStorage.setItem('employees', JSON.stringify({
+		firstName,
+		lastName,
+		dateOfBirth,
+		startDate,
+		street,
+		city,
+		state,
+		zipCode,
+		department
+	}))
+
+		setIsSubmitted(true)
+		console.log(localStorage.getItem('employees'))
+
+	}, [firstName, lastName, dateOfBirth, startDate, street, city, state, zipCode, department]);*/
+
+
+
+
+return <div className="container">
+
+	<form action="#" id="create-employee" onSubmit={handleSubmit} >
+		<div className="form-group">
+			<label htmlFor="firstName">First Name</label>
+			<input className="form-control" type="text" id="firstName" onChange={(e) => setFirstName(e.target.value)} />
+		</div>
+
+		<div className="form-group">
+			<label htmlFor="lastName">Last Name</label>
+			<input className="form-control" type="text" id="lastName" onChange={(e) => setLastName(e.target.value)} />
+		</div>
+		<div className="form-group">
+			<label htmlFor="dateOfBirth">Date of Birth</label><br/>
+			<DateInput id="dateOfBirth" date={dateOfBirth} setDate={onChangeDateOfBirth}/>
+		</div>
+
+		<div className="form-group">
+			<label htmlFor="startDate">Start Date</label><br/>
+			<DateInput id="startDate" date={startDate} setDate={onChangeStartDate}/>
+		</div>
+
+		<fieldset className="address">
+			<legend>Address</legend>
+
 			<div className="form-group">
-				<label htmlFor="first-name">First Name</label>
-				<input className="form-control" type="text" id="first-name"/>
+				<label htmlFor="street">Street</label>
+				<input className="form-control" id="street" type="text" onChange={(e) => setStreet(e.target.value)}/>
 			</div>
 
 			<div className="form-group">
-				<label htmlFor="last-name">Last Name</label>
-				<input className="form-control" type="text" id="last-name"/>
-			</div>
-			<div className="form-group">
-				<label htmlFor="date-of-birth">Date of Birth</label>
+				<label htmlFor="city">City</label>
+				<input className="form-control" id="city" type="text" onChange={(e) => setCity(e.target.value)} />
 			</div>
 
 			<div className="form-group">
-				<label htmlFor="start-date">Start Date</label>
-				<DateTimePicker id="start-date"  showIcon onChange={onChange} value={value} />
+				<label htmlFor="state">State</label>
+				<Select name="state" id="state" options={states} selected={state} setValue={setState}/>
 			</div>
 
-			<fieldset className="address">
-				<legend>Address</legend>
-
-				<div className="form-group">
-					<label htmlFor="street">Street</label>
-					<input className="form-control" id="street" type="text"/>
-				</div>
-
-				<div className="form-group">
-					<label htmlFor="city">City</label>
-					<input className="form-control" id="city" type="text"/>
-				</div>
-
-				<div className="form-group">
-					<label htmlFor="state">State</label>
-					<select className="form-select" name="state" id="state">
-						{states.map((state) => (
-							<option key={state.abbreviation} value={state.abbreviation}>{state.name}</option>
-						))}
-					</select>
-				</div>
-
-				<div className="form-group">
-					<label htmlFor="zip-code">Zip Code</label>
-					<input className="form-control" id="zip-code" type="number"/>
-				</div>
-			</fieldset>
 			<div className="form-group">
-				<label htmlFor="department">Department</label>
-				<select name="department" className="form-select" id="department">
-					<option>Sales</option>
-					<option>Marketing</option>
-					<option>Engineering</option>
-					<option>Human Resources</option>
-					<option>Legal</option>
-				</select>
+				<label htmlFor="zipCode">Zip Code</label>
+				<input className="form-control" id="zipCode" type="number" onChange={(e) => setZipCode(e.target.value)} />
 			</div>
-
-		</form>
-		<button className="btn btn-primary" id="submit">Submit</button>
-	</div>;
+		</fieldset>
+		<div className="form-group">
+			<label htmlFor="department">Department</label>
+			<Select
+				name="department"
+				id="department"
+				options={[
+					{ name: "Human Resources", abbreviation: "HR" },
+					{ name: "Engineering", abbreviation: "ENG" },
+					{ name: "Sales", abbreviation: "SAL" },
+					{ name: "Marketing", abbreviation: "MARK" },
+					{ name: "Legal", abbreviation: "L" },
+				]}
+				setValue={setDepartment}
+				selected={department}
+			/>
+		</div>
+		<button type={"submit"} className="btn btn-primary" id="submit">Submit</button>
+	</form>
+	{isSubmitted &&  <Modal isVisible={true} header="Success" body="Employee successfully created" displayButton={false}  /> }
+</div>;
 }
 
 export default Form;

@@ -3,6 +3,8 @@ import DateInput from "../DateInput";
 import Select from "../../component/Select";
 import Modal from "../Modal";
 
+import "./Form.css";
+
 
 const Form = () => {
 
@@ -10,14 +12,13 @@ const Form = () => {
 	const [isSubmitted, setIsSubmitted] = useState(false)
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const [dateOfBirth, setDateOfBirth] = useState("");
+	const [dateOfBirth, setDateOfBirth] = useState();
 	const [startDate, setStartDate] = useState(new Date());
 	const [street, setStreet] = useState("");
 	const [city, setCity] = useState("");
 	const [state, setState] = useState("");
 	const [zipCode, setZipCode] = useState("");
 	const [department, setDepartment] = useState("");
-
 
 	const onChangeDateOfBirth = (newValue) => {
 		setDateOfBirth(newValue)
@@ -26,15 +27,6 @@ const Form = () => {
 	const onChangeStartDate = (newValue) => {
 		setStartDate(newValue)
 	}
-
-	const onChangeState = (newValue) => {
-		setState(newValue)
-	}
-
-	const onChangeDepartement = (newValue) => {
-		setDepartment(newValue)
-	}
-
 
 	async function getStates() {
 		const response = await fetch('/api/data.json')
@@ -71,48 +63,27 @@ const Form = () => {
 		setIsSubmitted(true);
 	}
 
-	/*useEffect(() => {
-
-	localStorage.setItem('employees', JSON.stringify({
-		firstName,
-		lastName,
-		dateOfBirth,
-		startDate,
-		street,
-		city,
-		state,
-		zipCode,
-		department
-	}))
-
-		setIsSubmitted(true)
-		console.log(localStorage.getItem('employees'))
-
-	}, [firstName, lastName, dateOfBirth, startDate, street, city, state, zipCode, department]);*/
-
-
-
 
 return <div className="container">
 
 	<form action="#" id="create-employee" onSubmit={handleSubmit} >
 		<div className="form-group">
 			<label htmlFor="firstName">First Name</label>
-			<input className="form-control" type="text" id="firstName" onChange={(e) => setFirstName(e.target.value)} />
+			<input className="form-control" type="text" id="firstName" onChange={(e) => setFirstName(e.target.value)} required />
 		</div>
 
 		<div className="form-group">
 			<label htmlFor="lastName">Last Name</label>
-			<input className="form-control" type="text" id="lastName" onChange={(e) => setLastName(e.target.value)} />
+			<input className="form-control" type="text" id="lastName" onChange={(e) => setLastName(e.target.value)} required/>
 		</div>
 		<div className="form-group">
 			<label htmlFor="dateOfBirth">Date of Birth</label><br/>
-			<DateInput id="dateOfBirth" date={dateOfBirth} setDate={onChangeDateOfBirth}/>
+			<DateInput id="dateOfBirth" date={dateOfBirth} setDate={onChangeDateOfBirth} required/>
 		</div>
 
 		<div className="form-group">
 			<label htmlFor="startDate">Start Date</label><br/>
-			<DateInput id="startDate" date={startDate} setDate={onChangeStartDate}/>
+			<DateInput id="startDate" date={startDate} setDate={onChangeStartDate} required/>
 		</div>
 
 		<fieldset className="address">
@@ -120,12 +91,12 @@ return <div className="container">
 
 			<div className="form-group">
 				<label htmlFor="street">Street</label>
-				<input className="form-control" id="street" type="text" onChange={(e) => setStreet(e.target.value)}/>
+				<input className="form-control" id="street" type="text" onChange={(e) => setStreet(e.target.value)} required/>
 			</div>
 
 			<div className="form-group">
 				<label htmlFor="city">City</label>
-				<input className="form-control" id="city" type="text" onChange={(e) => setCity(e.target.value)} />
+				<input className="form-control" id="city" type="text" onChange={(e) => setCity(e.target.value)} required/>
 			</div>
 
 			<div className="form-group">

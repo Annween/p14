@@ -1,7 +1,8 @@
 import React from "react";
 import DateConverter from "../DateConverter";
+
+import "./Table.css";
 const Table = (props) => {
-console.log(typeof props.data);
 
 return <div className="table-responsive">
 	<table className="table table-striped table-bordered">

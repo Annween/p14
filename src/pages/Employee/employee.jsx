@@ -6,12 +6,8 @@ import {Link} from "react-router-dom";
 import Table from "../../component/Table/";
 
 function Employee() {
-	//const [employees, setEmployees] = React.useState([]);
 
 	const columns = ["First Name", "Last Name", "Date of Birth", "Date of Hire", "Address", "City", "State", "Zip Code", "Department"];
-
-	//const employees = JSON.parse(localStorage.getItem('employees'));
-
 	const [employeeData, setEmployeeData] = React.useState([]);
 
 	useEffect(() => {

@@ -20,17 +20,20 @@ return <div className="table-responsive">
 			</tr>
 		</thead>
 		<tbody>
-				 <tr key={props.data.zipCode}>
-					<td>{props.data.firstName}</td>
-					<td>{props.data.lastName}</td>
-					<td><DateConverter date={props.data.dateOfBirth} /></td>
-					<td><DateConverter date={props.data.startDate} /></td>
-					<td>{props.data.street}</td>
-					<td>{props.data.city}</td>
-					<td>{props.data.state}</td>
-					<td>{props.data.zipCode}</td>
-					<td>{props.data.department}</td>
-				</tr>
+			{props.data.map((employee, index) => {
+				return <tr key={index}>
+					<td>{employee.firstName}</td>
+					<td>{employee.lastName}</td>
+					<td><DateConverter date={employee.dateOfBirth}/></td>
+					<td><DateConverter date={employee.startDate}/></td>
+					<td>{employee.street}</td>
+					<td>{employee.city}</td>
+					<td>{employee.state}</td>
+					<td>{employee.zipCode}</td>
+					<td>{employee.department}</td>
+				</tr>;
+			}
+			)}
 
 		</tbody>
 	</table>

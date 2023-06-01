@@ -2,6 +2,8 @@ import React from "react";
 import "./home.css";
 import Form from "../../component/Form";
 import {Link} from "react-router-dom";
+import { FormProvider } from "../../component/Form/FormContext";
+
 
 
 function Home() {
@@ -12,7 +14,8 @@ function Home() {
 		<div className="container">
 			<Link to={"/employees"}>View Current Employees</Link>
 			<h2>Create Employee</h2>
-			<Form/>
+				<Form/>
+
 		</div>
 	</section>;
 }

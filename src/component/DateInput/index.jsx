@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
-import "./DateInput.css"
+import "./DateInput.css";
 import "react-datepicker/dist/react-datepicker.css";
+import { EmployeeListContext } from "../../contexts/employeeList";
 
-const DateInput = (props) => {
+const DateInput = ({fieldName, date, handleInputChange}) => {
 	return (
-		<DatePicker selected={props.date} onChange={(date) => props.setDate(date)}  />
+		<DatePicker
+			selected={date}
+			onChange={(date) => handleInputChange({target: {name: fieldName, value: date}})}
+		/>
 	);
 };
 

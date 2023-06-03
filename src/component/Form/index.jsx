@@ -1,7 +1,9 @@
 import React, {useState, useEffect, useContext} from "react";
 import DateInput from "../DateInput";
 import Select from "../../component/Select";
-import Modal from "../Modal";
+import Modal from "annween-modals/dist";
+
+
 import "./Form.css";
 import {EmployeeListContext} from "../../contexts/employeeList";
 
@@ -41,53 +43,29 @@ function Form() {
 		return await response.json();
 	}
 
+
 	const validateInputs = () => {
-		if (typeof formData.firstName !== "string" || formData.firstName === "") {
-			alert("Please enter a valid first name")
-			return false;
-		}
-		if (typeof formData.lastName !== "string" || formData.lastName === "") {
-			alert("Please enter a valid last name")
-			return false;
-		}
-		if (typeof formData.street !== "string" || formData.street === "") {
-			alert("Please enter a valid street")
-			return false;
-		}
+		const fields = [
+			{ name: 'firstName', validation: /^[a-zA-Z]+$/ },
+			{ name: 'lastName', validation: /^[a-zA-Z]+$/ },
+			{ name: 'street', validation: /^.+$/ },
+			{ name: 'city', validation: /^.+$/ },
+			{ name: 'zipCode', validation: /^\d{5}$/ },
+			{ name: 'state', validation: /^.+$/ },
+			{ name: 'department', validation: /^.+$/ },
+		];
 
-		if (typeof formData.city !== "string" || formData.city === "") {
-			alert("Please enter a valid city")
-			return false;
-		}
+		for (const field of fields) {
+			const value = formData[field.name];
 
-		if ((typeof formData.zipCode !== "number" && formData.zipCode.length > 5) || formData.zipCode === "") {
-			alert("Please enter a valid zip code")
-			return false;
-		}
-
-		if (typeof formData.state !== "string" || formData.state === "") {
-			alert("Please select a state")
-			return false;
-		}
-
-		if (typeof formData.department !== "string" || formData.department === "") {
-			alert("Please select a department")
-			return false;
-		}
-
-		if (typeof formData.dateOfBirth !== "object" || formData.dateOfBirth === "") {
-			alert("Please select a date of birth")
-			return false;
-		}
-
-		if (typeof formData.startDate !== "object" || formData.startDate === "") {
-			alert("Please select a start date")
-			return false;
+			if (typeof value !== 'string' || value === '' || !field.validation.test(value)) {
+				alert(`Please enter a valid ${field.name}`);
+				return false;
+			}
 		}
 
 		return true;
-
-	}
+	};
 
 	useEffect(() => {
 		let mounted = true;
@@ -104,8 +82,8 @@ function Form() {
 	function handleSubmit(e) {
 		e.preventDefault();
 		if (validateInputs()) {
-			setIsSubmitted(true)
-			handleAddEmployee(formData)
+			setIsSubmitted(true);
+			handleAddEmployee(formData);
 			setFormData({
 				firstName: '',
 				lastName: '',
@@ -115,8 +93,8 @@ function Form() {
 				city: '',
 				state: '',
 				zipCode: '',
-				department: ''
-			})
+				department: '',
+			});
 		}
 	}
 
@@ -127,13 +105,13 @@ function Form() {
 			<div className="form-group">
 				<label htmlFor="firstName">First Name</label>
 				<input className="form-control" type="text" id="firstName" name="firstName" value={formData.firstName}
-				       onChange={handleInputChange} required/>
+				       onChange={handleInputChange} />
 			</div>
 
 			<div className="form-group">
 				<label htmlFor="lastName">Last Name</label>
 				<input className="form-control" type="text" id="lastName" name="lastName" value={formData.lastName}
-				       onChange={handleInputChange} required/>
+				       onChange={handleInputChange} />
 			</div>
 			<div className="form-group">
 				<label htmlFor="dateOfBirth">Date of Birth</label><br/>
@@ -152,13 +130,13 @@ function Form() {
 				<div className="form-group">
 					<label htmlFor="street">Street</label>
 					<input className="form-control" id="street" name="street" type="text" value={formData.street}
-					       onChange={handleInputChange} required/>
+					       onChange={handleInputChange} />
 				</div>
 
 				<div className="form-group">
 					<label htmlFor="city">City</label>
 					<input className="form-control" id="city" name="city" type="text" value={formData.city}
-					       onChange={handleInputChange} required/>
+					       onChange={handleInputChange} />
 				</div>
 
 				<div className="form-group">

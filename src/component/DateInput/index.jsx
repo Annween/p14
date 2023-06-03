@@ -1,8 +1,8 @@
-import React, {useContext, useEffect, useState} from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import "./DateInput.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { EmployeeListContext } from "../../contexts/employeeList";
+
 
 const DateInput = ({fieldName, date, handleInputChange}) => {
 	return (

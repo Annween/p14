@@ -9,7 +9,6 @@ const Employee = () => {
 
 	const columns = ["First Name", "Last Name", "Date of Birth", "Date of Hire", "Address", "City", "State", "Zip Code", "Department"];
 	const {employeeList} = useContext(EmployeeListContext);
-	console.log(employeeList);
 
 
 	if (!employeeList) {

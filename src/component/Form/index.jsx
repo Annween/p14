@@ -49,7 +49,7 @@ function Form() {
 			{ name: 'firstName', validation: /^[a-zA-Z]+$/ },
 			{ name: 'lastName', validation: /^[a-zA-Z]+$/ },
 			{ name: 'street', validation: /^.+$/ },
-			{ name: 'city', validation: /^.+$/ },
+			{ name: 'city', validation: /^[^\d]+$/ },
 			{ name: 'zipCode', validation: /^\d{5}$/ },
 			{ name: 'state', validation: /^.+$/ },
 			{ name: 'department', validation: /^.+$/ },
